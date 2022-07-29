@@ -33,6 +33,7 @@ build/
 .vscode/
 
 # dependencies
+src/frontend/node
 src/frontend/node_modules
 src/frontend/.pnp
 src/frontend/.pnp.js
