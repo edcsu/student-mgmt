@@ -9,7 +9,7 @@ import {
     UserOutlined,
 } from '@ant-design/icons';
 
-import { Breadcrumb, Layout, Menu, Table } from 'antd'
+import { Breadcrumb, Empty, Layout, Menu, Spin, Table } from 'antd'
 
 import apiClient from "./api";
 
@@ -40,13 +40,16 @@ const columns = [
 ];
 
 function App() {
-    const [collapsed, setCollapsed] = useState(false);
     const [ students, setStudents] =  useState([]);
+    const [collapsed, setCollapsed] = useState(false);
+    const [fetching, setFetching] = useState(true);
+
     const year = new Date().getFullYear();
     const fetchStudents = async () => {
         try {
             const response = await apiClient.get("/students");
             setStudents(response.data);
+            setFetching(false);
         } catch (error) {
             console.log(error);
         }
@@ -57,10 +60,24 @@ function App() {
     }, []);
 
     const renderStudents = () => {
-      if(students.length <= 0) {
-          return "no data available";
-      }
-      return <Table dataSource={students} columns={columns} />;
+        if(fetching){
+            return <Spin size="large" />
+        }
+        if(students.length <= 0) {
+            return <Empty />
+        }
+        return <Table
+                    dataSource={students}
+                    columns={columns}
+                    title={() => 'Students'}
+                    pagination={{
+                        pageSize: 50,
+                    }}
+                    scroll={{
+                        y: 240,
+                    }}
+                    rowKey={(student => student.id)}
+                />;
     }
     return <Layout style={{ minHeight: '100vh' }}>
         <Sider collapsible collapsed={collapsed}
