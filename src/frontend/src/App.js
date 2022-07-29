@@ -9,12 +9,35 @@ import {
     UserOutlined,
 } from '@ant-design/icons';
 
-import { Breadcrumb, Layout, Menu } from 'antd'
+import { Breadcrumb, Layout, Menu, Table } from 'antd'
 
 import apiClient from "./api";
 
 
 const { Header, Content, Footer, Sider } = Layout;
+
+const columns = [
+    {
+        title: 'Id',
+        dataIndex: 'id',
+        key: 'id',
+    },
+    {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+    },
+    {
+        title: 'Email',
+        dataIndex: 'email',
+        key: 'email',
+    },
+    {
+        title: 'Gender',
+        dataIndex: 'gender',
+        key: 'gender',
+    },
+];
 
 function App() {
     const [collapsed, setCollapsed] = useState(false);
@@ -33,8 +56,11 @@ function App() {
         fetchStudents();
     }, []);
 
-    if (students.length <= 0){
-        return "no data";
+    const renderStudents = () => {
+      if(students.length <= 0) {
+          return "no data available";
+      }
+      return <Table dataSource={students} columns={columns} />;
     }
     return <Layout style={{ minHeight: '100vh' }}>
         <Sider collapsible collapsed={collapsed}
@@ -69,7 +95,7 @@ function App() {
                     <Breadcrumb.Item>Bill</Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-                    Bill is a cat.
+                    {renderStudents()}
                 </div>
             </Content>
             <Footer style={{ textAlign: 'center' }}>
