@@ -1,5 +1,7 @@
 import axios from 'axios';
 
-export default axios.create({
-    baseURL: `http://jsonplaceholder.typicode.com/`
+const apiClient = axios.create({
+    baseURL: `/api`
 });
+
+export default apiClient;
