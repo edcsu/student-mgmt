@@ -1,19 +1,27 @@
-import { Button } from 'antd';
+import { useState, useEffect} from "react";
 import './App.css';
 
 import apiClient from "./api";
 
-async function App() {
-    try {
-        const response = await apiClient.get("/students");
+function App() {
+    const [ students, setStudents] =  useState([]);
 
-        console.log(response.data);
-    } catch (error) {
-        console.log(error);
-    }
+    const fetchStudents = async () => {
+        try {
+            const response = await apiClient.get("/students");
+            setStudents(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchStudents();
+    }, []);
+
     return (
         <div className="App">
-            <Button size="large" type="primary">Hello</Button>
+            <p>{students.length}</p>
         </div>
     );
 }
