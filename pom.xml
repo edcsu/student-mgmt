@@ -17,8 +17,6 @@
         <java.version>18</java.version>
         <app.image.name>springboot-react-fullstack</app.image.name>
         <app.image.tag/>
-        <to.auth.username/>
-        <to.auth.password/>
     </properties>
     <dependencies>
         <dependency>
@@ -68,17 +66,6 @@
                     <from>
                         <image>gcr.io/distroless/java17-debian11</image>
                     </from>
-                    <to>
-                        <image>docker.io/skelevel/${app.image.name}:${app.image.tag}</image>
-                        <auth>
-                            <username>${to.auth.username}</username>
-                            <password>${to.auth.password}</password>
-                        </auth>
-                        <tags>
-                            <tag>v1</tag>
-                            <tag>latest</tag>
-                        </tags>
-                    </to>
                     <container>
                         <ports>
                             <port>8080</port>
@@ -119,10 +106,6 @@
                                 <configuration>
                                     <to>
                                         <image>docker.io/skelevel/${app.image.name}:${app.image.tag}</image>
-                                        <auth>
-                                            <username>${to.auth.username}</username>
-                                            <password>${to.auth.password}</password>
-                                        </auth>
                                     </to>
                                 </configuration>
                                 <goals>
@@ -135,10 +118,6 @@
                                 <configuration>
                                     <to>
                                         <image>docker.io/skelevel/${app.image.name}:latest</image>
-                                        <auth>
-                                            <username>${to.auth.username}</username>
-                                            <password>${to.auth.password}</password>
-                                        </auth>
                                     </to>
                                 </configuration>
                                 <goals>
