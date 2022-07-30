@@ -62,8 +62,19 @@
                 <version>3.2.1</version>
                 <configuration>
                     <from>
-                        <image>openjdk:18</image>
+                        <image>gcr.io/distroless/java17-debian11</image>
                     </from>
+                    <to>
+                        <image>replace_with_real_value</image>
+                        <auth>
+                            <username>replace_with_real_value</username>
+                            <password>replace_with_real_value</password>
+                        </auth>
+                        <tags>
+                            <tag>v1</tag>
+                            <tag>latest</tag>
+                        </tags>
+                    </to>
                     <container>
                         <ports>
                             <port>8080</port>
