@@ -15,6 +15,10 @@
     <description>student-mgmt</description>
     <properties>
         <java.version>18</java.version>
+        <app.image.name>springboot-react-fullstack</app.image.name>
+        <app.image.tag/>
+        <to.auth.username/>
+        <to.auth.password/>
     </properties>
     <dependencies>
         <dependency>
@@ -65,10 +69,10 @@
                         <image>gcr.io/distroless/java17-debian11</image>
                     </from>
                     <to>
-                        <image>replace_with_real_value</image>
+                        <image>docker.io/skelevel/${app.image.name}:${app.image.tag}</image>
                         <auth>
-                            <username>replace_with_real_value</username>
-                            <password>replace_with_real_value</password>
+                            <username>${to.auth.username}</username>
+                            <password>${to.auth.password}</password>
                         </auth>
                         <tags>
                             <tag>v1</tag>
@@ -86,6 +90,118 @@
         </plugins>
     </build>
     <profiles>
+        <profile>
+            <id>jib-push-to-dockerhub</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.google.cloud.tools</groupId>
+                        <artifactId>jib-maven-plugin</artifactId>
+                        <version>3.2.1</version>
+                        <configuration>
+                            <from>
+                                <image>gcr.io/distroless/java17-debian11</image>
+                            </from>
+                            <container>
+                                <ports>
+                                    <port>8080</port>
+                                </ports>
+                                <format>OCI</format>
+                            </container>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>push-custom-tag</id>
+                                <phase>package</phase>
+                                <configuration>
+                                    <to>
+                                        <image>docker.io/skelevel/${app.image.name}:${app.image.tag}</image>
+                                        <auth>
+                                            <username>${to.auth.username}</username>
+                                            <password>${to.auth.password}</password>
+                                        </auth>
+                                    </to>
+                                </configuration>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>push-latest-tag</id>
+                                <phase>package</phase>
+                                <configuration>
+                                    <to>
+                                        <image>docker.io/skelevel/${app.image.name}:latest</image>
+                                        <auth>
+                                            <username>${to.auth.username}</username>
+                                            <password>${to.auth.password}</password>
+                                        </auth>
+                                    </to>
+                                </configuration>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>jib-push-to-local</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.google.cloud.tools</groupId>
+                        <artifactId>jib-maven-plugin</artifactId>
+                        <version>3.2.1</version>
+                        <configuration>
+                            <from>
+                                <image>gcr.io/distroless/java17-debian11</image>
+                            </from>
+                            <container>
+                                <ports>
+                                    <port>8080</port>
+                                </ports>
+                                <format>OCI</format>
+                            </container>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>push-custom-tag</id>
+                                <phase>package</phase>
+                                <configuration>
+                                    <to>
+                                        <image>skelevel/${app.image.name}:${app.image.tag}</image>
+                                    </to>
+                                </configuration>
+                                <goals>
+                                    <goal>dockerBuild</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>push-latest-tag</id>
+                                <phase>package</phase>
+                                <configuration>
+                                    <to>
+                                        <image>skelevel/${app.image.name}:latest</image>
+                                    </to>
+                                </configuration>
+                                <goals>
+                                    <goal>dockerBuild</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <profile>
             <id>build-frontend</id>
             <activation>
