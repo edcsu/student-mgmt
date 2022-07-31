@@ -1,7 +1,10 @@
 import { useState, useEffect} from "react";
 import StudentDrawerForm from "./StudentDrawerForm";
+import { successNotification } from "./Notification";
 import './App.css';
 import {
+    EditOutlined,
+    DeleteOutlined,
     DesktopOutlined,
     FileOutlined,
     HeartTwoTone,
@@ -24,7 +27,9 @@ import {
     Table,
     Tag,
     Row,
-    Avatar
+    Avatar,
+    Space,
+    Popconfirm
  } from 'antd'
 
 import apiClient from "./api";
@@ -32,7 +37,7 @@ import apiClient from "./api";
 const TheAvatar = ({name}) => {
     let trim = name.trim();
     if (trim.length === 0) {
-        return <Avatar icon={UserOutlined} />
+        return <Avatar icon={<UserOutlined/>} />
     }
     const names =trim.split(" ");
     if (names.length === 1) {
@@ -43,7 +48,17 @@ const TheAvatar = ({name}) => {
 
 const { Header, Content, Footer, Sider } = Layout;
 
-const columns = [
+const removeStudent = async (studentId, callback) => {
+    try {
+        await apiClient.delete(`students/${studentId}`);
+        successNotification( "Student deleted", `Student with ${studentId} was deleted`);
+        callback();
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const columns = fetchStudents => [
     {
         title: '',
         dataIndex: 'avatar',
@@ -69,6 +84,26 @@ const columns = [
         title: 'Gender',
         dataIndex: 'gender',
         key: 'gender',
+    },
+    {
+        title: 'Actions',
+        key: 'actions',
+        render: (text, student) => <Space>
+                <Button type="primary" icon={<EditOutlined />} >
+                    Edit
+                </Button>
+                <Popconfirm
+                    placement='topRight'
+                    title={`Are you sure to delete ${student.name}`}
+                    onConfirm={() => removeStudent(student.id, fetchStudents)}
+                    okText='Yes'
+                    cancelText='No'>
+                    
+                    <Button type="primary" danger icon={<DeleteOutlined />} >
+                        Delete
+                    </Button>
+                </Popconfirm>
+            </Space>
     },
 ];
 
@@ -108,7 +143,7 @@ function App() {
                     />
                     <Table
                         dataSource={students}
-                        columns={columns}
+                        columns={columns(fetchStudents)}
                         title={() =>
                             <> 
                                 <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
