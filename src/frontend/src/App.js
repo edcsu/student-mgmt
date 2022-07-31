@@ -23,15 +23,33 @@ import {
     Spin, 
     Table,
     Tag,
-    Row
+    Row,
+    Avatar
  } from 'antd'
 
 import apiClient from "./api";
 
+const TheAvatar = ({name}) => {
+    let trim = name.trim();
+    if (trim.length === 0) {
+        return <Avatar icon={UserOutlined} />
+    }
+    const names =trim.split(" ");
+    if (names.length === 1) {
+        return <Avatar>{name.charAt(0)}</Avatar>
+    }
+    return <Avatar>{`${name.charAt(0)}${name.charAt(name.length-1)}`}</Avatar>
+};
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const columns = [
+    {
+        title: '',
+        dataIndex: 'avatar',
+        key: 'avatar',
+        render: (text, student) => <TheAvatar name={student.name}/>
+    },
     {
         title: 'Id',
         dataIndex: 'id',
