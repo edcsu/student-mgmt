@@ -13,13 +13,18 @@ import {
 
 import { 
     BackTop,
+    Badge,
     Breadcrumb, 
     Button, 
+    Col,
     Empty, 
     Layout, 
-    Menu, 
+    Menu,
     Spin, 
-    Table } from 'antd'
+    Table,
+    Tag,
+    Row
+ } from 'antd'
 
 import apiClient from "./api";
 
@@ -86,11 +91,23 @@ function App() {
                     <Table
                         dataSource={students}
                         columns={columns}
-                        title={() => <Button 
-                            onClick={() => setShowDrawer(!showDrawer)}
-                            type="primary" shape="round" icon={<PlusOutlined />} size="small">
-                            Add Student
-                        </Button>}
+                        title={() =>
+                            <> 
+                                <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+                                    <Col className="gutter-row" span={12}>
+                                        <Tag style={{marginLeft: "0.5rem"}}>Number of students</Tag>
+                                        <Badge count={students.length} className="site-badge-count-4"/>
+                                    </Col> 
+                                    <Col className="gutter-row" span={12}>
+                                        <Button 
+                                            onClick={() => setShowDrawer(!showDrawer)}
+                                            type="primary" shape="round" icon={<PlusOutlined />} size="small">
+                                            Add Student
+                                        </Button>
+                                    </Col> 
+                                </Row>
+                            </>
+                        }
                         pagination={{
                             pageSize: 50,
                         }}
