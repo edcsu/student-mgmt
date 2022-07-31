@@ -74,7 +74,7 @@ function App() {
                         pageSize: 50,
                     }}
                     scroll={{
-                        y: 240,
+                        y: 600,
                     }}
                     rowKey={(student => student.id)}
                 />;
