@@ -1,4 +1,5 @@
 import { useState, useEffect} from "react";
+import StudentDrawerForm from "./StudentDrawerForm";
 import './App.css';
 import {
     DesktopOutlined,
@@ -11,6 +12,7 @@ import {
 } from '@ant-design/icons';
 
 import { 
+    BackTop,
     Breadcrumb, 
     Button, 
     Empty, 
@@ -51,6 +53,7 @@ function App() {
     const [ students, setStudents] =  useState([]);
     const [collapsed, setCollapsed] = useState(false);
     const [fetching, setFetching] = useState(true);
+    const [showDrawer, setShowDrawer] = useState(false);
 
     const year = new Date().getFullYear();
     const fetchStudents = async () => {
@@ -74,20 +77,29 @@ function App() {
         if(students.length <= 0) {
             return <Empty />
         }
-        return <Table
-                    dataSource={students}
-                    columns={columns}
-                    title={() => <Button type="primary" shape="round" icon={<PlusOutlined />} size="small">
-                        Add Student
-                    </Button>}
-                    pagination={{
-                        pageSize: 50,
-                    }}
-                    scroll={{
-                        y: 600,
-                    }}
-                    rowKey={(student => student.id)}
-                />;
+        return <>
+                    <StudentDrawerForm
+                        showDrawer={showDrawer}
+                        setShowDrawer={setShowDrawer}
+                    />
+                    <Table
+                        dataSource={students}
+                        columns={columns}
+                        title={() => <Button 
+                            onClick={() => setShowDrawer(!showDrawer)}
+                            type="primary" shape="round" icon={<PlusOutlined />} size="small">
+                            Add Student
+                        </Button>}
+                        pagination={{
+                            pageSize: 50,
+                        }}
+                        scroll={{
+                            y: 600,
+                        }}
+                        rowKey={(student => student.id)}
+                    />
+                    <BackTop />
+                </>;
     }
     return <Layout style={{ minHeight: '100vh' }}>
         <Sider collapsible collapsed={collapsed}
@@ -126,7 +138,16 @@ function App() {
                 </div>
             </Content>
             <Footer style={{ textAlign: 'center' }}>
-                ©{year} Made with <HeartTwoTone  twoToneColor="#eb2f96" /> by Keith
+                ©{year} Made with <HeartTwoTone  twoToneColor="#eb2f96" /> by
+                <Button
+                    color=""
+                    class=""
+                    target="_blank" 
+                    href="https://sewaportfolio.web.app"
+                    type="link"
+                    >
+                    Keith
+                </Button>
             </Footer>
         </Layout>
     </Layout>
