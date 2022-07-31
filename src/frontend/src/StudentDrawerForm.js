@@ -1,12 +1,33 @@
+import apiClient from "./api";
+
 import {Drawer, Input, Col, Select, Form, Row, Button} from 'antd';
 
 const {Option} = Select;
 
+
 function StudentDrawerForm({showDrawer, setShowDrawer}) {
     const onCLose = () => setShowDrawer(false);
 
-    const onFinish = values => {
-        alert(JSON.stringify(values, null, 2));
+    const addNewStudent = async (student) => {
+        try {
+            const response = await apiClient.post("/students", student, {
+                headers: {
+                  // 'application/json' is the modern content-type for JSON, but some
+                  // older servers may use 'text/json'.
+                  // See: http://bit.ly/text-json
+                  'content-type': 'application/json'
+                }
+            });
+            console.log(response.statusText);
+            // setFetching(false);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const onFinish = student => {
+        console.log(JSON.stringify(student, null, 2));
+        addNewStudent(student);
     };
 
     const onFinishFailed = errorInfo => {
