@@ -3,6 +3,8 @@ import apiClient from "./api";
 import {Drawer, Input, Col, Select, Form, Row, Button} from 'antd';
 import { useState } from "react";
 
+import { successNotification, errorNotification } from "./Notification";
+
 const {Option} = Select;
 
 
@@ -22,6 +24,9 @@ function StudentDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
                 }
             });
             onCLose();
+            successNotification(
+                "Student successfully added",
+                `${student.name} was added`);
             fetchStudents();
         } catch (error) {
             console.log(error);
