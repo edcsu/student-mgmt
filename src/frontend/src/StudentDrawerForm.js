@@ -1,12 +1,15 @@
 import apiClient from "./api";
 
 import {Drawer, Input, Col, Select, Form, Row, Button} from 'antd';
+import { useState } from "react";
 
 const {Option} = Select;
 
 
-function StudentDrawerForm({showDrawer, setShowDrawer}) {
+function StudentDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
     const onCLose = () => setShowDrawer(false);
+
+    const [submitting, setSubmitting] = useState(false);
 
     const addNewStudent = async (student) => {
         try {
@@ -18,15 +21,16 @@ function StudentDrawerForm({showDrawer, setShowDrawer}) {
                   'content-type': 'application/json'
                 }
             });
-            console.log(response.statusText);
-            // setFetching(false);
+            onCLose();
+            fetchStudents();
         } catch (error) {
             console.log(error);
         }
+        setSubmitting(false);
     };
 
     const onFinish = student => {
-        console.log(JSON.stringify(student, null, 2));
+        setSubmitting(true);
         addNewStudent(student);
     };
 
@@ -94,7 +98,7 @@ function StudentDrawerForm({showDrawer, setShowDrawer}) {
             <Row>
                 <Col span={12}>
                     <Form.Item >
-                        <Button type="primary" htmlType="submit">
+                        <Button type="primary" htmlType="submit" loading={submitting}>
                             Submit
                         </Button>
                     </Form.Item>
