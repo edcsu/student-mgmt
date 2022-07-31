@@ -5,11 +5,19 @@ import {
     FileOutlined,
     HeartTwoTone,
     PieChartOutlined,
+    PlusOutlined,
     TeamOutlined,
     UserOutlined,
 } from '@ant-design/icons';
 
-import { Breadcrumb, Empty, Layout, Menu, Spin, Table } from 'antd'
+import { 
+    Breadcrumb, 
+    Button, 
+    Empty, 
+    Layout, 
+    Menu, 
+    Spin, 
+    Table } from 'antd'
 
 import apiClient from "./api";
 
@@ -69,7 +77,9 @@ function App() {
         return <Table
                     dataSource={students}
                     columns={columns}
-                    title={() => 'Students'}
+                    title={() => <Button type="primary" shape="round" icon={<PlusOutlined />} size="small">
+                        Add Student
+                    </Button>}
                     pagination={{
                         pageSize: 50,
                     }}
