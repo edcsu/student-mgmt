@@ -29,7 +29,11 @@ function StudentDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
                 `${student.name} was added`);
             fetchStudents();
         } catch (error) {
-            console.log(error);
+            errorNotification("There was an error", 
+            `${error.response.data.message} 
+                [statuscode: ${error.response.data.status}] 
+                [error:${error.response.data.error}]`
+            )
         }
         setSubmitting(false);
     };

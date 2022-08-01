@@ -1,6 +1,6 @@
 import { useState, useEffect} from "react";
 import StudentDrawerForm from "./StudentDrawerForm";
-import { successNotification } from "./Notification";
+import { errorNotification, successNotification } from "./Notification";
 import './App.css';
 import {
     EditOutlined,
@@ -54,7 +54,11 @@ const removeStudent = async (studentId, callback) => {
         successNotification( "Student deleted", `Student with ${studentId} was deleted`);
         callback();
     } catch (error) {
-        console.log(error);
+        errorNotification("There was an error", 
+            `${error.response.data.message} 
+                [statuscode: ${error.response.data.status}] 
+                [error:${error.response.data.error}]`
+            )
     }
 }
 
@@ -118,10 +122,14 @@ function App() {
         try {
             const response = await apiClient.get("/students");
             setStudents(response.data);
-            setFetching(false);
         } catch (error) {
-            console.log(error);
+            errorNotification("There was an error", 
+            `${error.response.data.message} 
+                [statuscode: ${error.response.data.status}] 
+                [error:${error.response.data.error}]`
+            )
         }
+        setFetching(false);
     };
     
     useEffect(() => {
