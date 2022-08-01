@@ -28,8 +28,8 @@ public class StudentService {
 
     public void deleteStudent(Long studentId) {
         // check if student exists
-         var studentExists = studentRepository.findById(studentId);
-         if(studentExists == null) {
+         var studentExists = studentRepository.existsById(studentId);
+         if(!studentExists) {
              throw new StudentNotFoundException(String.format(
                      "student with id: %s does not exist",
                      studentId));
