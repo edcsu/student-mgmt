@@ -25,7 +25,7 @@ function StudentDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
             });
             onCLose();
             successNotification(
-                "Student successfully added",
+                `${response.status}: Student successfully added`,
                 `${student.name} was added`);
             fetchStudents();
         } catch (error) {
