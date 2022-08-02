@@ -6,11 +6,9 @@ import {
     EditOutlined,
     DeleteOutlined,
     DesktopOutlined,
-    FileOutlined,
     HeartTwoTone,
     PieChartOutlined,
     PlusOutlined,
-    TeamOutlined,
     UserOutlined,
 } from '@ant-design/icons';
 
@@ -225,6 +223,7 @@ function App() {
                 ©{year} Made with <HeartTwoTone  twoToneColor="#eb2f96" /> by
                 <Button
                     color=""
+                    rel="noopener noreferrer"
                     target="_blank" 
                     href="https://sewaportfolio.web.app"
                     type="link"
