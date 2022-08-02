@@ -8,7 +8,7 @@ on:
 
 env:
   POSTGRESQL_VERSION: 14.4
-  POSTGRESQL_DB: skecorp
+  POSTGRESQL_DB: postgres 
   POSTGRESQL_USER: postgres
   POSTGRESQL_PASSWORD: password
   DATA_SOURCE_USERNAME: postgres
