@@ -1,16 +1,14 @@
 import { useState, useEffect} from "react";
 import StudentDrawerForm from "./StudentDrawerForm";
-import { successNotification } from "./Notification";
+import { errorNotification, successNotification } from "./Notification";
 import './App.css';
 import {
     EditOutlined,
     DeleteOutlined,
     DesktopOutlined,
-    FileOutlined,
     HeartTwoTone,
     PieChartOutlined,
     PlusOutlined,
-    TeamOutlined,
     UserOutlined,
 } from '@ant-design/icons';
 
@@ -54,7 +52,11 @@ const removeStudent = async (studentId, callback) => {
         successNotification( "Student deleted", `Student with ${studentId} was deleted`);
         callback();
     } catch (error) {
-        console.log(error);
+        errorNotification("There was an error", 
+            `${error.response.data.message} 
+                [statuscode: ${error.response.data.status}] 
+                [error:${error.response.data.error}]`
+            )
     }
 }
 
@@ -118,10 +120,14 @@ function App() {
         try {
             const response = await apiClient.get("/students");
             setStudents(response.data);
-            setFetching(false);
         } catch (error) {
-            console.log(error);
+            errorNotification("There was an error", 
+            `${error.response.data.message} 
+                [statuscode: ${error.response.data.status}] 
+                [error:${error.response.data.error}]`
+            )
         }
+        setFetching(false);
     };
     
     useEffect(() => {
@@ -133,7 +139,19 @@ function App() {
             return <Spin size="large" />
         }
         if(students.length <= 0) {
-            return <Empty />
+            return  <>
+                <Button
+                    onClick={() => setShowDrawer(!showDrawer)}
+                    type="primary" shape="round" icon={<PlusOutlined/>} size="small">
+                    Add New Student
+                </Button>
+                <StudentDrawerForm
+                    showDrawer={showDrawer}
+                    setShowDrawer={setShowDrawer}
+                    fetchStudents={fetchStudents}
+                />
+                <Empty />
+            </>
         }
         return <>
                     <StudentDrawerForm
@@ -188,13 +206,6 @@ function App() {
                     <Menu.Item key="4">Bill</Menu.Item>
                     <Menu.Item key="5">Alex</Menu.Item>
                 </Menu.SubMenu>
-                <Menu.SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
-                    <Menu.Item key="6">Team 1</Menu.Item>
-                    <Menu.Item key="8">Team 2</Menu.Item>
-                </Menu.SubMenu>
-                <Menu.Item key="9" icon={<FileOutlined />}>
-                    Files
-                </Menu.Item>
             </Menu>
         </Sider>
         <Layout className="site-layout">
@@ -212,6 +223,7 @@ function App() {
                 ©{year} Made with <HeartTwoTone  twoToneColor="#eb2f96" /> by
                 <Button
                     color=""
+                    rel="noopener noreferrer"
                     target="_blank" 
                     href="https://sewaportfolio.web.app"
                     type="link"
