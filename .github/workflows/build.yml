@@ -11,6 +11,9 @@ env:
   POSTGRESQL_DB: skecorp
   POSTGRESQL_USER: postgres
   POSTGRESQL_PASSWORD: password
+  DATA_SOURCE_USERNAME: postgres
+  DATA_SOURCE_PASSWORD: password
+  DB_HOST: //localhost:5432/skedb
   JAVA_VERSION: 17
 
 jobs:
