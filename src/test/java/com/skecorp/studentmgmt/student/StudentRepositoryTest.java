@@ -23,7 +23,7 @@ class StudentRepositoryTest {
         // given
         String email = "janedoe@skeuni.co.ug";
         Student student = new Student(
-                "Jamila",
+                "Jane Doe",
                 email,
                 Gender.FEMALE);
         underTest.save(student);
