@@ -1,6 +1,7 @@
 package com.skecorp.studentmgmt.student;
 
 import com.skecorp.studentmgmt.student.exception.BadRequestException;
+import com.skecorp.studentmgmt.student.exception.StudentNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -86,7 +87,35 @@ class StudentServiceTest {
     }
 
     @Test
-    @Disabled
     void deleteStudent() {
+        // given
+        long id = 20;
+
+        given(studentRepository.existsById(id))
+                .willReturn(true);
+
+        // when
+        underTest.deleteStudent(id);
+
+        // then
+        verify(studentRepository).deleteById(id);
+    }
+
+    @Test
+    void deleteStudentWillThrowExceptionWhenIdDoesnotExist() {
+        // given
+        long id = 99;
+
+        given(studentRepository.existsById(id))
+                .willReturn(false);
+
+        // when
+        // then
+        assertThatThrownBy(() -> underTest.deleteStudent(id))
+                .isInstanceOf(StudentNotFoundException.class)
+                .hasMessageContaining(String.format(
+                        "student with id: %s does not exist", id));
+
+        verify(studentRepository, never()).deleteById(id);
     }
 }
