@@ -1,5 +1,6 @@
 package com.skecorp.studentmgmt.student;
 
+import com.skecorp.studentmgmt.student.exception.BadRequestException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -11,6 +12,10 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -56,6 +61,28 @@ class StudentServiceTest {
         Student capturedStudent = studentArgumentCaptor.getValue();
 
         assertThat(capturedStudent).isEqualTo(student);
+    }
+
+    @Test
+    void willThrowExceptionWhenEmailIsTaken() {
+        // given
+        String email = "janedoe@skeuni.co.ug";
+        Student student = new Student(
+                "Jane Doe",
+                email,
+                Gender.FEMALE);
+
+        given(studentRepository.selectExistsEmail(student.getEmail()))
+                .willReturn(true);
+
+        // when
+        // then
+        assertThatThrownBy(() -> underTest.addStudent(student))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessageContaining(String.format(
+                        "Student with email %s already exists", student.getEmail()));
+
+        verify(studentRepository, never()).save(any());
     }
 
     @Test
