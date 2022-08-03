@@ -65,10 +65,10 @@ jobs:
           ./mvnw --no-transfer-progress clean package \
             -P build-frontend \
             -P jib-push-to-dockerhub \
-              -Dapp.image.tag=${{steps.build-number.outputs.BUILD_NUMBER}}
-              -Dapp.image.name=spring-react-fullstack
-              -Dapp.image.DB_HOST=${{secrets.DB_HOST}}/${{ secrets.POSTGRESQL_DB }}
-              -Dapp.image.DATA_SOURCE_USERNAME=${{secrets.DATA_SOURCE_USERNAME}}
+              -Dapp.image.tag=${{steps.build-number.outputs.BUILD_NUMBER}} \
+              -Dapp.image.name=spring-react-fullstack \
+              -Dapp.image.DB_HOST=${{secrets.DB_HOST}}/${{ secrets.POSTGRESQL_DB }} \
+              -Dapp.image.DATA_SOURCE_USERNAME=${{secrets.DATA_SOURCE_USERNAME}} \
               -Dapp.image.DATA_SOURCE_PASSWORD=${{secrets.DATA_SOURCE_PASSWORD}}
       - uses: 8398a7/action-slack@v3
         with:
