@@ -83,12 +83,12 @@ public class StudentIT {
                 Gender.FEMALE
         );
 
-        mockMvc.perform(post("/api/v1/students")
+        mockMvc.perform(post("/api/students")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(student)))
                 .andExpect(status().isOk());
 
-        MvcResult getStudentsResult = mockMvc.perform(get("/api/v1/students")
+        MvcResult getStudentsResult = mockMvc.perform(get("/api/students")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
