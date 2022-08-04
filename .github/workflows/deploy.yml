@@ -15,7 +15,7 @@ env:
   AWS_REGION: ap-south-1
   EB_ENVIRONMENT_NAME: Skecorpstudentmgmtapp-env
   EB_APPLICATION_NAME: skecorp-student-mgmt-app
-  EB_DEPLOYMENT_PACKAGE: student-mgmt/docker-compose.yml
+  EB_DEPLOYMENT_PACKAGE: student-mgmt/docker-compose.yaml
 
 jobs:
   deploy:
@@ -80,12 +80,12 @@ jobs:
       - name: Update and commit app version in docker-compose.yaml
         run: |
           BUILD_NUMBER=${{steps.build-number.outputs.BUILD_NUMBER}}
-          echo -e "Current student-mgmt/docker-compose.yml\n$(cat student-mgmt/docker-compose.yml)"
-          sed -i -E 's_(edcsu/student-mgmt:)([^"]*)_\1'${BUILD_NUMBER}'_' student-mgmt/docker-compose.yml
-          echo -e "Current student-mgmt/docker-compose.yml\n$(cat student-mgmt/docker-compose.yml)"
+          echo -e "Current student-mgmt/docker-compose.yaml\n$(cat student-mgmt/docker-compose.yaml)"
+          sed -i -E 's_(edcsu/student-mgmt:)([^"]*)_\1'${BUILD_NUMBER}'_' student-mgmt/docker-compose.yaml
+          echo -e "Current student-mgmt/docker-compose.yaml\n$(cat student-mgmt/docker-compose.yaml)"
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add student-mgmt/docker-compose.yml
+          git add student-mgmt/docker-compose.yaml
           git commit -m "new app version: ${BUILD_NUMBER}"
           git push
 
